@@ -980,15 +980,15 @@ _dbus_string_append (DBusString *str,
 
 /** assign 2 bytes from one string to another */
 #define ASSIGN_2_OCTETS(p, octets) \
-  *((dbus_uint16_t*)(p)) = *((dbus_uint16_t*)(octets));
+  *((dbus_uint16_t*)(void*)(p)) = *((dbus_uint16_t*)(void*)(octets));
 
 /** assign 4 bytes from one string to another */
 #define ASSIGN_4_OCTETS(p, octets) \
-  *((dbus_uint32_t*)(p)) = *((dbus_uint32_t*)(octets));
+  *((dbus_uint32_t*)(void*)(p)) = *((dbus_uint32_t*)(void*)(octets));
 
 /** assign 8 bytes from one string to another */
 #define ASSIGN_8_OCTETS(p, octets) \
-  *((dbus_uint64_t*)(p)) = *((dbus_uint64_t*)(octets));
+  *((dbus_uint64_t*)(void*)(p)) = *((dbus_uint64_t*)(void*)(octets));
 
 /**
  * Inserts 2 bytes aligned on a 2 byte boundary

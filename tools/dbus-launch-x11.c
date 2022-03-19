@@ -304,7 +304,7 @@ x11_get_address (char **paddress, pid_t *pid, long *wid)
   int format;
   unsigned long items;
   unsigned long after;
-  char *data;
+  void *data;
 
   *paddress = NULL;
 

@@ -339,8 +339,8 @@ check_guards (void       *free_block,
   if (free_block != NULL)
     {
       unsigned char *block = ((unsigned char*)free_block) - GUARD_START_OFFSET;
-      size_t requested_bytes = *(dbus_uint32_t*)block;
-      BlockSource source = *(dbus_uint32_t*)(block + 4);
+      size_t requested_bytes = *(dbus_uint32_t*)(void*)block;
+      BlockSource source = *(dbus_uint32_t*)(void*)(block + 4);
       unsigned int i;
       dbus_bool_t failed;
 
@@ -354,7 +354,7 @@ check_guards (void       *free_block,
       i = GUARD_INFO_SIZE;
       while (i < GUARD_START_OFFSET)
         {
-          dbus_uint32_t value = *(dbus_uint32_t*) &block[i];
+          dbus_uint32_t value = *(dbus_uint32_t*)(void*) &block[i];
           if (value != GUARD_VALUE)
             {
               _dbus_warn ("Block of %lu bytes from %s had start guard value 0x%ux at %d expected 0x%x",
@@ -369,7 +369,7 @@ check_guards (void       *free_block,
       i = GUARD_START_OFFSET + requested_bytes;
       while (i < (GUARD_START_OFFSET + requested_bytes + GUARD_END_PAD))
         {
-          dbus_uint32_t value = *(dbus_uint32_t*) &block[i];
+          dbus_uint32_t value = *(dbus_uint32_t*)(void*) &block[i];
           if (value != GUARD_VALUE)
             {
               _dbus_warn ("Block of %lu bytes from %s had end guard value 0x%ux at %d expected 0x%x",
@@ -403,13 +403,13 @@ set_guards (void       *real_block,
   if (block == NULL)
     return NULL;
 
-  *((dbus_uint32_t*)block) = requested_bytes;
-  *((dbus_uint32_t*)(block + 4)) = source;
+  *((dbus_uint32_t*)(void*)block) = requested_bytes;
+  *((dbus_uint32_t*)(void*)(block + 4)) = source;
 
   i = GUARD_INFO_SIZE;
   while (i < GUARD_START_OFFSET)
     {
-      (*(dbus_uint32_t*) &block[i]) = GUARD_VALUE;
+      (*(dbus_uint32_t*)(void*) &block[i]) = GUARD_VALUE;
       
       i += 4;
     }
@@ -417,7 +417,7 @@ set_guards (void       *real_block,
   i = GUARD_START_OFFSET + requested_bytes;
   while (i < (GUARD_START_OFFSET + requested_bytes + GUARD_END_PAD))
     {
-      (*(dbus_uint32_t*) &block[i]) = GUARD_VALUE;
+      (*(dbus_uint32_t*)(void*) &block[i]) = GUARD_VALUE;
       
       i += 4;
     }
