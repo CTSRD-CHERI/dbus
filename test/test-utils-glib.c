@@ -553,7 +553,7 @@ become_other_user (TestUser user,
 }
 
 /* Undo the effect of a successful call to become_other_user() */
-static void
+static _DBUS_GNUC_NORETURN void
 back_to_root (void)
 {
 #if defined(HAVE_GETRESUID) && defined(HAVE_SETRESUID) && defined(__linux__)
