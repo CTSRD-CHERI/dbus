@@ -561,6 +561,7 @@ back_to_root (void)
     g_error ("setresuid(0, 0, 0): %s", g_strerror (errno));
 #else
   g_error ("become_other_user() cannot succeed on this platform");
+  abort();
 #endif
 }
 
