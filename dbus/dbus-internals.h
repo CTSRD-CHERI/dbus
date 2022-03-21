@@ -283,11 +283,13 @@ _dbus_assert_error_xor_bool (const DBusError *error,
  */
 
 #define _DBUS_ALIGN_VALUE(this, boundary) \
-  (( ((uintptr_t)(this)) + (((uintptr_t)(boundary)) -1)) & (~(((uintptr_t)(boundary))-1)))
+  (( ((uintptr_t)(this)) + (((size_t)(boundary)) -1)) & (~(((size_t)(boundary))-1)))
 
 #define _DBUS_ALIGN_ADDRESS(this, boundary) \
   ((void*)_DBUS_ALIGN_VALUE(this, boundary))
 
+#define _DBUS_IS_ALIGNED(this, boundary) \
+  ((size_t)(this) % (boundary) == 0)
 
 DBUS_PRIVATE_EXPORT
 char*       _dbus_strdup                (const char  *str);
