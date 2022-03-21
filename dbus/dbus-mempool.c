@@ -208,6 +208,7 @@ _dbus_mem_pool_free (DBusMemPool *pool)
 void*
 _dbus_mem_pool_alloc (DBusMemPool *pool)
 {
+  // FIXME: set bounds here
 #ifdef DBUS_ENABLE_EMBEDDED_TESTS
   if (_dbus_disable_mem_pools ())
     {
