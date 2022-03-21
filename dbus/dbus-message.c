@@ -136,6 +136,7 @@ struct DBusMessageRealIter
   } u; /**< the type writer or reader that does all the work */
 };
 
+#ifndef __CHERI_PURE_CAPABILITY__ /* No backwards ABI compat required */
 /**
  * Layout of a DBusMessageIter on the stack in dbus 1.10.0. This is no
  * longer used, but for ABI compatibility we need to assert that the
@@ -158,6 +159,7 @@ typedef struct
   int pad2;
   void *pad3;
 } DBusMessageIter_1_10_0;
+#endif
 
 static void
 get_const_signature (DBusHeader        *header,
@@ -2069,16 +2071,21 @@ _dbus_message_iter_init_common (DBusMessage         *message,
   _DBUS_STATIC_ASSERT (sizeof (DBusMessageRealIter) <= sizeof (DBusMessageIter));
   _DBUS_STATIC_ASSERT (_DBUS_ALIGNOF (DBusMessageRealIter) <=
       _DBUS_ALIGNOF (DBusMessageIter));
+#ifndef __CHERI_PURE_CAPABILITY__
   /* A failure of these two assertions would indicate that we've broken
    * ABI on this platform since 1.10.0. */
   _DBUS_STATIC_ASSERT (sizeof (DBusMessageIter_1_10_0) ==
       sizeof (DBusMessageIter));
   _DBUS_STATIC_ASSERT (_DBUS_ALIGNOF (DBusMessageIter_1_10_0) ==
       _DBUS_ALIGNOF (DBusMessageIter));
+#endif
   /* If this static assertion fails, it means the DBusMessageIter struct
    * is not "packed", which might result in "iter = other_iter" not copying
    * every byte. */
   _DBUS_STATIC_ASSERT (sizeof (DBusMessageIter) ==
+#if __SIZEOF_POINTER__ == 16
+      2 * sizeof(int) +
+#endif
       4 * sizeof (void *) + sizeof (dbus_uint32_t) + 9 * sizeof (int));
 
   /* Since the iterator will read or write who-knows-what from the

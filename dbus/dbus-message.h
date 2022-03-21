@@ -71,7 +71,7 @@ struct DBusMessageIter
   int dummy9;           /**< Don't use this */
   int dummy10;          /**< Don't use this */
   int dummy11;          /**< Don't use this */
-  int pad1;             /**< Don't use this */
+  int pad1[sizeof(void*) > 8 ? (sizeof(void*) - sizeof(int)) / sizeof(int) : 1]; /**< Don't use this */
   void *pad2;           /**< Don't use this */
   void *pad3;           /**< Don't use this */
 };
@@ -93,7 +93,7 @@ struct DBusMessageIter
   0, /* dummy9 */ \
   0, /* dummy10 */ \
   0, /* dummy11 */ \
-  0, /* pad1 */ \
+  {0}, /* pad1 */ \
   NULL, /* pad2 */ \
   NULL /* pad3 */ \
 }
