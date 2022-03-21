@@ -44,10 +44,10 @@ struct DBusTypeReader
                                  * where we don't have another way to tell
                                  */
   dbus_uint32_t array_len_offset : 3; /**< bytes back from start_pos that len ends */
-  const DBusString *type_str;   /**< string containing signature of block */
   int type_pos;                 /**< current position in signature */
-  const DBusString *value_str;  /**< string containing values of block */
   int value_pos;                /**< current position in values */
+  const DBusString *type_str;   /**< string containing signature of block */
+  const DBusString *value_str;  /**< string containing values of block */
 
   const DBusTypeReaderClass *klass; /**< the vtable for the reader */
   union
@@ -71,10 +71,10 @@ struct DBusTypeWriter
 
   dbus_uint32_t enabled : 1; /**< whether to write values */
 
-  DBusString *type_str; /**< where to write typecodes (or read type expectations) */
   int type_pos;         /**< current pos in type_str */
-  DBusString *value_str; /**< where to write values */
   int value_pos;         /**< next position to write */
+  DBusString *type_str; /**< where to write typecodes (or read type expectations) */
+  DBusString *value_str; /**< where to write values */
 
   union
   {
