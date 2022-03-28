@@ -65,6 +65,9 @@ if(UNIX)
         dbus-transport-unix.c
         dbus-server-unix.c
     )
+    if(DBUS_ENABLE_LAUNCHD)
+        set(DBUS_LIB_SOURCES ${DBUS_LIB_SOURCES} dbus-server-launchd.c)
+    endif()
 else(UNIX)
     set(DBUS_LIB_SOURCES ${DBUS_LIB_SOURCES}
         dbus-transport-win.c

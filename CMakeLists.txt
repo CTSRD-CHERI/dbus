@@ -669,6 +669,10 @@ if(DBUS_BUILD_TESTS)
     endif()
 endif()
 
+if(APPLE)
+    option(DBUS_ENABLE_LAUNCHD "Use launchd autolaunch" ON)
+endif()
+
 set(DBUS_LIBRARIES dbus-1)
 set(DBUS_INTERNAL_LIBRARIES dbus-internal)
 
