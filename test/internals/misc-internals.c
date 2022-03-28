@@ -679,8 +679,8 @@ _dbus_server_test (const char *test_data_dir _DBUS_GNUC_UNUSED)
     "tcp:host=localhost,port=1234",
     "tcp:host=localhost,port=1234;tcp:port=5678",
 #ifdef DBUS_UNIX
-    "unix:path=./boogie",
-    "tcp:port=1234;unix:path=./boogie",
+    "unix:path=/tmp/boogie",
+    "tcp:port=1234;unix:path=/tmp/boogie",
 #endif
   };
 
