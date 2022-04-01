@@ -125,8 +125,7 @@ static DBusAtomic n_blocks_outstanding = {0};
 /** total extra size over the requested allocation for guard stuff */
 #define GUARD_EXTRA_SIZE (GUARD_START_OFFSET + GUARD_END_PAD)
 
-_Static_assert(GUARD_START_OFFSET % _DBUS_ALIGNOF(max_align_t) == 0,
-    "DBus malloc debug breaks malloc() alignment");
+_DBUS_STATIC_ASSERT(GUARD_START_OFFSET % _DBUS_ALIGNOF(max_align_t) == 0);
 
 static void
 _dbus_initialize_malloc_debug (void)
@@ -391,6 +390,8 @@ check_guards (void       *free_block,
     }
 }
 
+_DBUS_STATIC_ASSERT(GUARD_START_OFFSET + GUARD_END_PAD == GUARD_EXTRA_SIZE);
+
 static void*
 set_guards (void       *real_block,
             size_t      requested_bytes,
@@ -402,8 +403,6 @@ set_guards (void       *real_block,
   if (block == NULL)
     return NULL;
 
-  _Static_assert(GUARD_START_OFFSET + GUARD_END_PAD == GUARD_EXTRA_SIZE, "");
-  
   *((dbus_uint32_t*)block) = requested_bytes;
   *((dbus_uint32_t*)(block + 4)) = source;
 

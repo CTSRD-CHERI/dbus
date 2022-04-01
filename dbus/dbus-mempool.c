@@ -85,7 +85,7 @@ struct DBusMemBlock
   _Alignas(_DBUS_ALIGNOF(max_align_t)) unsigned char elements[]; /**< the block data, actually allocated to required size */
 };
 
-_Static_assert(offsetof(struct DBusMemBlock, elements) % _DBUS_ALIGNOF(max_align_t) == 0, "");
+_DBUS_STATIC_ASSERT(offsetof(struct DBusMemBlock, elements) % _DBUS_ALIGNOF(max_align_t) == 0);
 
 /**
  * Internals fields of DBusMemPool
